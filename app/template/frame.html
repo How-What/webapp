@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {%if title %}
+            <title>{{ title }} - Page</title>
+        {%else%}
+            <title> The page</title>
+        {%endif%}
+    </head>
+    <body>
+            {%block content%} {%endblock%}
+    </body>
+</html>
