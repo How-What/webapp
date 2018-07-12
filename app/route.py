@@ -1,13 +1,14 @@
 from flask import flash, render_template, redirect, url_for
 from flask_login import current_user, login_user, logout_user
 from app import app, db
-from app.form import Login
+from app.form import Login, Register
 from app.models import User
 
 @app.route('/', methods = ['GET'])
 @app.route('/home', methods = ['GET'])
+@app.route('/index', methods = ['GET'])
 def home():
-    return "Hello World!"
+    return render_template('index.html', title = 'Home - Generic')
 
 
 @app.route('/<string:user>', methods=['GET','POST'])
@@ -17,12 +18,11 @@ def user_profile(user):
         
         :param user: takes in user's name from url
     '''
-    return render_template('user.html', title = User, user = user)
+    return render_template('user.html', title = "user", user = user)
 
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     
@@ -40,9 +40,26 @@ def login():
 
 @app.route('/logout')
 def logout():
+    '''
+        logs the user out then takes back to home page
+    '''
     logout_user()
     return redirect(url_for('home'))
 
 
-@app.route('/signup', methods=['POST'])
-def regesiter
+@app.route('/sign-up', methods=['GET','POST'])
+@app.route('/register', methods = ['GET','POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    form = Register()
+    if form.validate_on_submit():
+        user = User(username = form.username.data,email =  form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("You are now registered!")
+        return redirect(url_for('login'))
+    
+    return render_template('register.html', title = "Signup - Generic website", form = form)
