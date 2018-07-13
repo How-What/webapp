@@ -1,0 +1,31 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}
+        {{ title }} - Generic website 
+    {% else %}
+        Sup fools
+    {% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class = "navbar navbar-default">
+        <div class = "container">
+            <a href="{{ url_for('home') }}"> Home </a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}"> Login</a>
+            {% else %}
+            
+            <a href="{{ url_for('user', username = current_user.username) }}">Profile</a>
+
+            <a href="{{ url_for('logout') }}"> Logout </a>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class = "container">
+
+    </div>
+{% endblock %}

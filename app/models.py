@@ -6,12 +6,14 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index = True, unique  = True)
     email = db.Column(db.String, unique = True)
+    about_me = db.Column(db.String(150))
     password_hash = db.Column(db.String(150))
 
     def __init_(self):
         username = self.username
         password_hash = self.password_hash
         email = self.email
+        about_me = self.about_me
 
     def set_password(self, password):
         '''

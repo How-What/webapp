@@ -1,6 +1,10 @@
-{% extends 'frame.html' %}
+{% extends 'base.html' %}
 {% block content %}
-    <p>Hello {{user}}</p>
+    <p>Hello {{user.username}}</p>
     
-
+    {% for post in posts %}
+    <p>
+        {{post.author.username }}: <em>{{ post.body }}</em>
+    </p>
+    {% endfor %}
 {% endblock %}
